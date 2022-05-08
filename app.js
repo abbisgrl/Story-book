@@ -2,24 +2,26 @@ const express =require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const morgan = require('morgan');
-const ejs = require('express-handlebars');
+const express_handlebars = require('express-handlebars');
 const path = require('path');
-const passport = require('passport');
 const session = require('express-session');
+const passport = require('passport');
+
 
 
 
 //load config variable
 dotenv.config({path: './config/config.env'});
 
+
+// calling the function in app for connecting it to the database
+connectDB();
+
 // passport config
 require('./config/passport')(passport);
 
-connectDB(); // calling the function in app for connecting it to the database
-
 
 const app = express();
-
 
 //logging 
 if(process.env.NODE_ENV==='development'){
@@ -28,7 +30,7 @@ if(process.env.NODE_ENV==='development'){
 
 
 //view engine and layout
-app.engine('.hbs', ejs.engine({defaultLayout: 'main',extname: '.hbs'}));
+app.engine('.hbs', express_handlebars.engine({defaultLayout: 'main',extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.set('views', './views');
 
@@ -37,7 +39,7 @@ app.set('views', './views');
 app.use(express.static(path.join(__dirname,'public')));
 
 
-// session
+// session for create cookie for login
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
