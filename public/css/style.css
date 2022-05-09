@@ -7,3 +7,8 @@ p{
     margin-left: 300px;
     text-align: center;
 }
+
+.btn-float{
+    float:left;
+    margin-right:10px;
+}
